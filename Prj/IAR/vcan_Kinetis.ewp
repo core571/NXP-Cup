@@ -5814,6 +5814,9 @@
       <name>$PROJ_DIR$\..\..\App\Inc\MK60_it.h</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\App\motor.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\App\Inc\PORT_cfg.h</name>
     </file>
   </group>

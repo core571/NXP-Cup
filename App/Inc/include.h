@@ -6,6 +6,11 @@
 /*
  * Include 用户自定义的头文件
  */
+#include  "motor.h"
+
+
+
+
 #include  "MK60_wdog.h"
 #include  "MK60_gpio.h"     //IO口操作
 #include  "MK60_uart.h"     //串口
