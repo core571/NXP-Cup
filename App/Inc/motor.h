@@ -22,14 +22,17 @@ typedef struct
 #define Backward_PWM  FTM_CH4
 
 #define MOTOR_HZ    500//Hz
-#define MOTOR_DUTY  80
 
 //***************************************************** 
 //PID定义相关宏 
 //***************************************************** 
-#define P_DATA 100 
-#define I_DATA 0.6 
-#define D_DATA 1 
+#define P_DATA 0.4//0.19
+#define I_DATA 0.11//0.015
+#define D_DATA 0.12//0.2
+
+extern PID *sptr;
+
+
 
 void PIT0_IRQHandler(void);
 void IncPIDInit(void);
