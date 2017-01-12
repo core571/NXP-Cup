@@ -9,9 +9,9 @@
 typedef struct   
 {   
     int SetPoint; //设定目标  Desired Value   
-    double Proportion; //比例常数  Proportional Const   
-    double Integral; //积分常数  Integral Const   
-    double Derivative; //微分常数  Derivative Const   
+    float Proportion; //比例常数  Proportional Const   
+    float Integral; //积分常数  Integral Const   
+    float Derivative; //微分常数  Derivative Const   
     int LastError; //Error[-1]   
     int PrevError; //Error[-2]   
 } PID;
@@ -30,7 +30,9 @@ typedef struct
 #define I_DATA 0.11//0.015
 #define D_DATA 0.12//0.2
 
+extern PID sPID; 
 extern PID *sptr;
+extern int32 P_Integer, I_Integer, D_Integer;
 
 
 

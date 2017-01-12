@@ -46,14 +46,15 @@ typedef enum
     VAR_8BIT = VAR2, //8位变量的结束编号
 
     /* 16位变量 */
-    VAR3,
+    SETPoint,
     VAR4,
     VAR_16BIT  = VAR4,          //16位变量的结束编号
 
     /* 32位变量 */
-    VAR5,
-    VAR6,
-    VAR_32BIT  = VAR6,          //32位变量的结束编号
+    PRoportion,
+    INtegral,
+    DErivative,
+    VAR_32BIT  = DErivative,          //32位变量的结束编号
 
     VAR_MAX,        //变量数目
 } var_tab_e;

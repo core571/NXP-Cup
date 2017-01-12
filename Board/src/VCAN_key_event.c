@@ -13,7 +13,8 @@
  * @version    v5.0
  * @date       2014-01-04
  */
-
+#include "common.h"
+#include "include.h"
 #include "VCAN_key_event.h"
 #include "VCAN_UI_VAR.h"
 //#include "NRF24L0.h"
@@ -67,7 +68,7 @@ void deal_key_event()
                 val_cancel();
                 break;
 
-            case KEY_START:
+/*            case KEY_START:
                 save_var(CAR_CTRL,CAR_START);
                 var_syn(CAR_CTRL);
                 var_display(CAR_CTRL);
@@ -77,6 +78,7 @@ void deal_key_event()
                 var_syn(CAR_CTRL);
                 var_display(CAR_CTRL);
                 break;
+*/
 
             default:
                 break;
@@ -107,7 +109,7 @@ void deal_key_event()
                 var_display(VAR_MAX);   //显示全部
                 break;
 
-            case KEY_START:
+/*            case KEY_START:
                 save_var(CAR_CTRL,CAR_START);
                 while(var_syn(CAR_CTRL)==0);
                 var_display(CAR_CTRL);
@@ -117,6 +119,7 @@ void deal_key_event()
                 save_var(CAR_CTRL,CAR_STOP);
                 while(var_syn(CAR_CTRL)==0);
                 var_display(CAR_CTRL);
+*/
 
             default:            //不需要处理 cancel
                 break;
@@ -127,6 +130,9 @@ void deal_key_event()
             //KEY_UP ,不进行处理
         }
     }
+    sptr->Proportion = ((float)P_Integer)/1000;
+    sptr->Integral = ((float)I_Integer)/1000;
+    sptr->Derivative = ((float)D_Integer)/1000;
 }
 
 

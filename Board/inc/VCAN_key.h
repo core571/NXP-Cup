@@ -38,8 +38,8 @@ typedef enum
     KEY_A,  //取消
     KEY_B,  //选择
 
-    KEY_START,  //开始
-    KEY_STOP,   //停止
+//    KEY_START,  //开始
+//    KEY_STOP,   //停止
 
     KEY_MAX,
 } KEY_e;

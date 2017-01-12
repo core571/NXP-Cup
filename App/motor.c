@@ -9,7 +9,7 @@
 PID sPID;   
 PID *sptr = &sPID;
 int16 PWMOUT = 0;
-
+int32 P_Integer = 0, I_Integer = 0, D_Integer = 0;
 
 void motor_init(void)
 {
@@ -20,9 +20,15 @@ void motor_init(void)
     //PIDInit
     IncPIDInit();
     
+    P_Integer = ((int) sptr->Proportion)*1000 + (int)((sptr->Proportion-(int) sptr->Proportion)*1000);
+    I_Integer = ((int) sptr->Integral)*1000 + (int)((sptr->Integral-(int) sptr->Integral)*1000);
+    D_Integer = ((int) sptr->Derivative)*1000 + (int)((sptr->Derivative-(int) sptr->Derivative)*1000);
+    /*********************** 按键消息 初始化  ***********************/
+    key_event_init();                                                   //按键消息初始化
+    
     //encoder init
     ftm_quad_init(FTM2);									//FTM2 正交解码初始化（所用的管脚可查 port_cfg.h ）
-	pit_init_ms(PIT0, 20); 								//初始化PIT0，定时时间为： 10ms
+	pit_init_ms(PIT0, 10); 								//初始化PIT0，定时时间为： 10ms
 	set_vector_handler(PIT0_VECTORn ,PIT0_IRQHandler);		//设置PIT0的中断服务函数为 PIT0_IRQHandler
 	enable_irq (PIT0_IRQn); 								//使能PIT0中断
 }
@@ -33,6 +39,7 @@ void motor_init(void)
  */
 void PIT0_IRQHandler(void)
 {
+    key_IRQHandler();  
     int16 val;
     val = ftm_quad_get(FTM2);		   //获取FTM 正交解码 的脉冲数(负数表示反方向)
     ftm_quad_clean(FTM2);
@@ -55,10 +62,15 @@ void PIT0_IRQHandler(void)
         ftm_pwm_duty(MOTOR_FTM,Backward_PWM,-PWMOUT);
     }
     
-    //printf("%d\n",val);
+   // printf("%d\n",val);
 
     vcan_sendware((uint8_t *)&val, sizeof(val));//virtual oscilloscope
-
+/*   
+    printf("\t%d.%03d",(int) sptr->Proportion,(int)((sptr->Proportion-(int) sptr->Proportion)*1000));
+    printf("\t%d.%04d",( int) sptr->Integral,(int)((sptr->Integral-( int) sptr->Integral)*10000));
+    printf("\t%d.%04d",( int) sptr->Derivative,(int)((sptr->Derivative-( int) sptr->Derivative)*10000));
+    printf("\n");
+*/
     PIT_Flag_Clear(PIT0);		//清中断标志位
 }
 

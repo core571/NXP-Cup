@@ -31,7 +31,7 @@
 #define LCD_ST7735R     3       // 1.44寸液晶
 #define LCD_ILI9325     4       // 3.2寸液晶(山外)
 
-#define USE_LCD         LCD_ILI9325             //选择使用的 LCD
+#define USE_LCD         LCD_ST7735S             //选择使用的 LCD
 
 /*
  * 选择是否输出调试信息，不输出则注释下面的宏定义

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "include.h"
 #include "VCAN_LCD.h"
 #include "VCAN_UI_VAR.h"
 #include "VCAN_NRF24L0_MSG.h"
@@ -13,11 +14,14 @@
 
 static uint8  car_ctrl = CAR_NULL;
 
-extern uint8  var1, var2;
-extern uint16 var3, var4;
-extern uint32 var5, var6;
+uint8  var1, var2;
+//extern int sptr->SetPoint;
+uint16 var4;
+//uint32 var5, var6;
 
-uint32 *var_addr[VAR_MAX] = {(uint32 *)&car_ctrl,(uint32 *)&var1, (uint32 *)&var2, (uint32 *)&var3, (uint32 *)&var4, (uint32 *)&var5, (uint32 *)&var6};
+uint32 *var_addr[VAR_MAX] = {(uint32 *)&car_ctrl,(uint32 *)&var1, (uint32 *)&var2, 
+                                (uint32 *)&sPID.SetPoint, (uint32 *)&var4, 
+                                (uint32 *)&P_Integer, (uint32 *)&I_Integer, (uint32 *)&D_Integer};
 
 
 ui_var_info_t  num_info[VAR_MAX] =
@@ -29,10 +33,11 @@ ui_var_info_t  num_info[VAR_MAX] =
     {0, 0, 0, CAR_CTRL_MAX, {90,102}},      //变量 car_ctrl，
     {0, 0, 0, 100, {90, 0}},                //变量 var1，
     {0, 0, 0, 100, {90, 17}},               //变量 var2，
-    {0, 0, 0, 300, {90, 34}},               //变量 var3，
+    {0, 0, 0, 400, {30, 34}},               //变量 sptr->SetPoint，
     {0, 0, 0, 300, {90, 51}},               //变量 var4，
-    {0, 0, 0, 65540, {90, 68}},             //变量 var5，
-    {0, 0, 0, 65540, {90, 85}}              //变量 var6，
+    {0, 0, 0, 65540, {30, 68}},             //变量 P，
+    {0, 0, 0, 65540, {30, 85}},              //变量 I，
+    {0, 0, 0, 65540, {90, 85}}               //D  
 };
 
 uint8   new_tab = 0;        //当前选择的变量编号
@@ -349,7 +354,7 @@ uint8 var_syn(uint8 tab)
 
         //把值复制到对应的变量
         save_var((var_tab_e)tab, VAR_VALUE(tab));
-
+/*
         //发送新的值
         save_var2buff((var_tab_e)tab, tempbuff);        //把变量写进 tempbuff 里
         nrf_msg_tx(COM_VAR, tempbuff);                //发送数据
@@ -363,6 +368,7 @@ uint8 var_syn(uint8 tab)
             //放弃同步
             return 0;
         }
+*/
         tab++;
     }
     while(i--);
