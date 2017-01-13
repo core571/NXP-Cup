@@ -20,10 +20,11 @@ void motor_init(void)
     //PIDInit
     IncPIDInit();
     
+    /*********************** 按键消息 初始化  ***********************/
     P_Integer = ((int) sptr->Proportion)*1000 + (int)((sptr->Proportion-(int) sptr->Proportion)*1000);
     I_Integer = ((int) sptr->Integral)*1000 + (int)((sptr->Integral-(int) sptr->Integral)*1000);
     D_Integer = ((int) sptr->Derivative)*1000 + (int)((sptr->Derivative-(int) sptr->Derivative)*1000);
-    /*********************** 按键消息 初始化  ***********************/
+    
     key_event_init();                                                   //按键消息初始化
     
     //encoder init
@@ -79,12 +80,23 @@ void PIT0_IRQHandler(void)
 //***************************************************** 
 void IncPIDInit(void)
 {   
+    int i=0, a[3]={0};
     sptr->LastError = 0; //Error[-1]   
     sptr->PrevError = 0; //Error[-2]   
+#if 0
     sptr->Proportion = P_DATA; //比例常数  Proportional Const   
     sptr->Integral = I_DATA; //积分常数 Integral Const   
     sptr->Derivative = D_DATA; //微分常数  Derivative Const   
-    sptr->SetPoint =100;    //目标是 100 
+    sptr->SetPoint =100;    //目标是 100
+#else
+    for(i=0;i<3;i++)
+        a[i]=flash_read(SECTOR_NUM2_MOTOR_PID,(i*4),int32);
+    sptr->Proportion = ((float)a[0])/1000; //比例常数  Proportional Const   
+    sptr->Integral = ((float)a[1])/1000; //积分常数 Integral Const   
+    sptr->Derivative = ((float)a[2])/1000; //微分常数  Derivative Const   
+    sptr->SetPoint =flash_read(SECTOR_NUM1_SPEED,(0*4),int);    //目标是 100
+    
+#endif
 }
 
 //***************************************************** 

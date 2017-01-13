@@ -19,9 +19,9 @@ uint8  var1, var2;
 uint16 var4;
 //uint32 var5, var6;
 
-uint32 *var_addr[VAR_MAX] = {(uint32 *)&car_ctrl,(uint32 *)&var1, (uint32 *)&var2, 
-                                (uint32 *)&sPID.SetPoint, (uint32 *)&var4, 
-                                (uint32 *)&P_Integer, (uint32 *)&I_Integer, (uint32 *)&D_Integer};
+uint32 *var_addr[VAR_MAX] = {   (uint32 *)&car_ctrl,(uint32 *)&var1, (uint32 *)&var2, //8bit
+                                (uint32 *)&sPID.SetPoint, (uint32 *)&var4,            //16bit
+                                (uint32 *)&P_Integer, (uint32 *)&I_Integer, (uint32 *)&D_Integer};//32bit
 
 
 ui_var_info_t  num_info[VAR_MAX] =
@@ -237,6 +237,15 @@ void var_ok()
     }
 
     var_display(new_tab);
+    flash_erase_sector  (SECTOR_NUM1_SPEED);
+    flash_erase_sector  (SECTOR_NUM2_MOTOR_PID);
+    
+    flash_write(SECTOR_NUM1_SPEED, 0, sptr->SetPoint); 
+    flash_write(SECTOR_NUM2_MOTOR_PID, (0*4), P_Integer);
+    flash_write(SECTOR_NUM2_MOTOR_PID, (1*4), I_Integer);
+    flash_write(SECTOR_NUM2_MOTOR_PID, (2*4), D_Integer);
+    
+    
 }
 
 //取消当前选择的值  OK

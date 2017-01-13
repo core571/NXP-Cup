@@ -129,10 +129,12 @@ void deal_key_event()
         {
             //KEY_UP ,不进行处理
         }
+        
+        sptr->Proportion = ((float)P_Integer)/1000;
+        sptr->Integral = ((float)I_Integer)/1000;
+        sptr->Derivative = ((float)D_Integer)/1000;
     }
-    sptr->Proportion = ((float)P_Integer)/1000;
-    sptr->Integral = ((float)I_Integer)/1000;
-    sptr->Derivative = ((float)D_Integer)/1000;
+    
 }
 
 

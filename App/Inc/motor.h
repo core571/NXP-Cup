@@ -23,6 +23,11 @@ typedef struct
 
 #define MOTOR_HZ    500//Hz
 
+//flash
+#define SECTOR_NUM1_SPEED  (FLASH_SECTOR_NUM-1)
+#define SECTOR_NUM2_MOTOR_PID  (FLASH_SECTOR_NUM-2)
+
+
 //***************************************************** 
 //PID定义相关宏 
 //***************************************************** 
