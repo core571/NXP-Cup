@@ -37,24 +37,20 @@ void uart4_handler(void)
 
 void main()
 {
-    set_vector_handler(UART4_RX_TX_VECTORn,uart4_handler);	 
-	uart_rx_irq_en (UART4); 
+    set_vector_handler(UART4_RX_TX_VECTORn,uart4_handler);
+	uart_rx_irq_en (UART4);
     
     /************************ LCD “∫æß∆¡ ≥ı ºªØ  ***********************/
     LCD_init();
     
     flash_init();
 
-    
-
     motor_init();
-    
     
     while(1)
     {
         deal_key_event();
     }
-
 }
 
 

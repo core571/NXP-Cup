@@ -23,6 +23,12 @@ typedef struct
 
 #define MOTOR_HZ    500//Hz
 
+
+//舵机相关定义
+#define SERVO_FTM   FTM1
+#define SERVO_CH    FTM_CH0
+#define SERVO_HZ    300 //Hz
+
 //flash
 #define SECTOR_NUM1_SPEED  (FLASH_SECTOR_NUM-1)
 #define SECTOR_NUM2_MOTOR_PID  (FLASH_SECTOR_NUM-2)
@@ -32,8 +38,8 @@ typedef struct
 //PID定义相关宏 
 //***************************************************** 
 #define P_DATA 0.4//0.19
-#define I_DATA 0.11//0.015
-#define D_DATA 0.12//0.2
+#define I_DATA 0//0.015
+#define D_DATA 0//0.2
 
 extern PID sPID; 
 extern PID *sptr;
@@ -46,5 +52,6 @@ void IncPIDInit(void);
 int16 IncPIDCalc(int16 NextPoint);
 
 extern void motor_init(void);
+extern void ServoAngle(int x);
 
 #endif /* _MOTOR_H_ */

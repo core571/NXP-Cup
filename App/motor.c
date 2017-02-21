@@ -17,6 +17,10 @@ void motor_init(void)
     ftm_pwm_init(MOTOR_FTM, Forward_PWM,MOTOR_HZ,0);      //初始化 电机 PWM
     ftm_pwm_init(MOTOR_FTM, Backward_PWM,MOTOR_HZ,0);      //初始化 电机 PWM
     
+    //servo init
+    ftm_pwm_init(SERVO_FTM, SERVO_CH,SERVO_HZ,45);//PWM:0.15~0.75
+    DELAY_MS(100);
+    
     //PIDInit
     IncPIDInit();
     
@@ -29,7 +33,9 @@ void motor_init(void)
     
     //encoder init
     ftm_quad_init(FTM2);									//FTM2 正交解码初始化（所用的管脚可查 port_cfg.h ）
-	pit_init_ms(PIT0, 10); 								//初始化PIT0，定时时间为： 10ms
+	
+    
+    pit_init_ms(PIT0, 10); 								//初始化PIT0，定时时间为： 10ms
 	set_vector_handler(PIT0_VECTORn ,PIT0_IRQHandler);		//设置PIT0的中断服务函数为 PIT0_IRQHandler
 	enable_irq (PIT0_IRQn); 								//使能PIT0中断
 }
@@ -83,7 +89,7 @@ void IncPIDInit(void)
     int i=0, a[3]={0};
     sptr->LastError = 0; //Error[-1]   
     sptr->PrevError = 0; //Error[-2]   
-#if 0
+#if 1
     sptr->Proportion = P_DATA; //比例常数  Proportional Const   
     sptr->Integral = I_DATA; //积分常数 Integral Const   
     sptr->Derivative = D_DATA; //微分常数  Derivative Const   
@@ -121,3 +127,13 @@ int16 IncPIDCalc(int16 NextPoint)
     sptr->LastError = iError;   
     return(iIncpid);                        //返回增量值   
 } 
+
+//舵机角度函数
+void ServoAngle(int x)
+{
+    if (x < 15)
+        x = 15;
+    else if (x > 75)
+        x = 75;
+    ftm_pwm_duty(SERVO_FTM, SERVO_CH,x);
+}
