@@ -44,6 +44,9 @@ void main()
     LCD_init();
     
     flash_init();
+    
+    adc_init(AMP1);
+    adc_init(AMP2);
 
     motor_init();
     

@@ -7,6 +7,7 @@
  * Include 用户自定义的头文件
  */
 #include  "motor.h"
+#include  "data.h"
 
 
 
