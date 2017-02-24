@@ -10,8 +10,14 @@
 
 #define ADCCOUNT 2 //sensor count
 
+//flash
+#define SECTOR_NUM3_MAX  (FLASH_SECTOR_NUM-3)
+#define SECTOR_NUM4_MIN  (FLASH_SECTOR_NUM-4)
+
 extern int16 AD_valu[ADCCOUNT];
 
 extern void Read_ADC(void);
+extern void calibrate_max_min(void);
+extern void normalize(void);
 
 #endif /* _DATA_H_ */

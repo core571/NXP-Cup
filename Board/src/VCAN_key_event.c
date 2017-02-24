@@ -24,7 +24,7 @@
 void key_event_init()
 {
     //初始化 全部 按键
-    key_init(KEY_MAX);
+//    key_init(KEY_MAX);
 
     //初始化临时变量
     var_init();

@@ -37,6 +37,7 @@ void uart4_handler(void)
 
 void main()
 {
+    int i;
     set_vector_handler(UART4_RX_TX_VECTORn,uart4_handler);
 	uart_rx_irq_en (UART4);
     
@@ -47,6 +48,27 @@ void main()
     
     adc_init(AMP1);
     adc_init(AMP2);
+    
+    //led light init
+    led_init(LED_MAX);
+    
+    //初始化 全部 按键
+    key_init(KEY_MAX);
+    
+    //倒计时5sec
+    for(i=5;i>0;i--)
+    {
+//        Display(i,16,2);
+        led_turn(LED3);
+        DELAY_MS(1000);
+        if(key_check(KEY_B) == KEY_DOWN)
+        {
+            break;
+        }
+    }
+    
+    //标定
+    calibrate_max_min();
 
     motor_init();
     

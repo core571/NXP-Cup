@@ -2,7 +2,10 @@
 #include "include.h"
 #include "data.h"
 
-int16 AD_valu[ADCCOUNT];
+int16 AD_valu[ADCCOUNT] = {0};
+int16 max_valu[ADCCOUNT] = {0};
+int16 min_valu[ADCCOUNT] = {0};
+int16 AD_N[ADCCOUNT] = {0};//归一化后值
 
 /*中值滤波 均值滤波*/
 void Read_ADC(void)
@@ -56,4 +59,76 @@ void Read_ADC(void)
             AD_valu[i]+=ad_mid[i][j];
          AD_valu[i]/=4;
      }
+}
+
+//标定
+void calibrate_max_min(void)
+{
+     int16 i,j;
+     
+     for(i=0;i<ADCCOUNT;i++)
+     {
+        max_valu[i]=0;
+        min_valu[i]=10;
+     }
+     
+     if(key_check(KEY_B) == KEY_DOWN)
+     {
+         while(key_check(KEY_A) == KEY_UP)
+         {
+             led(LED2,LED_ON);
+             Read_ADC();
+             
+             for(j=0;j<ADCCOUNT;j++)
+             {
+                 if(AD_valu[j] > max_valu[j])
+                    max_valu[j] = AD_valu[j];
+                 
+                 if(AD_valu[j] < min_valu[j])
+                    min_valu[j] = AD_valu[j];
+             }
+             DELAY_MS(1);
+
+             for(i=0;i<ADCCOUNT;i++)
+             {
+               printf("%d\t",max_valu[i]);
+               printf("%d\t",min_valu[i]);
+             }
+             printf("\n");
+         }
+         
+         flash_erase_sector(SECTOR_NUM3_MAX);
+         flash_erase_sector(SECTOR_NUM4_MIN);
+         for(i=0;i<ADCCOUNT;i++)
+         {
+             flash_write(SECTOR_NUM3_MAX, i*4, max_valu[i]);
+             flash_write(SECTOR_NUM4_MIN, i*4, min_valu[i]);
+         }
+         led(LED2, LED_OFF);
+     }
+     
+     else
+     {
+         for(i=0;i<ADCCOUNT;i++)
+         {
+             max_valu[i]=flash_read(SECTOR_NUM3_MAX,i*4,int16);
+             min_valu[i]=flash_read(SECTOR_NUM4_MIN,i*4,int16);
+         }
+     }
+}
+
+//归一化处理
+void normalize(void)
+{
+    int i;
+    
+    Read_ADC();
+    
+    for(i=0;i<ADCCOUNT;i++)
+    {
+         AD_N[i] = (int)(((float)(AD_valu[i] - min_valu[i])/(float)(max_valu[i] - min_valu[i]))*100); 
+         if(AD_N[i] < 0)  AD_N[i] = 0 ;
+         if(AD_N[i] > 100)  AD_N[i] = 100 ;
+    }
+
 }
