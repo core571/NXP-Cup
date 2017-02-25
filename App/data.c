@@ -7,6 +7,9 @@ int16 max_valu[ADCCOUNT] = {0};
 int16 min_valu[ADCCOUNT] = {0};
 int16 AD_N[ADCCOUNT] = {0};//归一化后值
 
+PD S_PD;
+PD *SPointer = &S_PD;
+
 /*中值滤波 均值滤波*/
 void Read_ADC(void)
 {
@@ -21,10 +24,10 @@ void Read_ADC(void)
          {
              ad_valu[0][i]=adc_once(AMP1,ADC_8bit);
              ad_valu[1][i]=adc_once(AMP2,ADC_8bit);
-//             ad_valu[2][i]=adc_once(AMP3,ADC_8bit);
-//             ad_valu[3][i]=adc_once(AMP4,ADC_8bit);
-//             ad_valu[4][i]=adc_once(AMP5,ADC_8bit);
-//             ad_valu[5][i]=adc_once(AMP6,ADC_8bit);
+             ad_valu[2][i]=adc_once(AMP3,ADC_8bit);
+             ad_valu[3][i]=adc_once(AMP4,ADC_8bit);
+             ad_valu[4][i]=adc_once(AMP5,ADC_8bit);
+             ad_valu[5][i]=adc_once(AMP6,ADC_8bit);
          }
     //冒泡排序
          for(i = 0; i < ADCCOUNT; i++)
@@ -72,7 +75,7 @@ void calibrate_max_min(void)
         min_valu[i]=10;
      }
      
-     if(key_check(KEY_B) == KEY_DOWN)
+     if(key_check(KEY_L) == KEY_DOWN)//KEY_B
      {
          while(key_check(KEY_A) == KEY_UP)
          {
@@ -129,6 +132,35 @@ void normalize(void)
          AD_N[i] = (int)(((float)(AD_valu[i] - min_valu[i])/(float)(max_valu[i] - min_valu[i]))*100); 
          if(AD_N[i] < 0)  AD_N[i] = 0 ;
          if(AD_N[i] > 100)  AD_N[i] = 100 ;
+         
+         printf("%d\t",AD_N[i]);
     }
+    printf("\n");
+}
 
+
+int16 get_bias(void)
+{
+    int16 bias = 0;
+    normalize();
+    bias = AD_N[1] - AD_N[4];
+    
+    printf("%d\n",bias);
+    
+    return (bias);
+}
+
+
+int16 Servo_PD(int16 bias)
+{
+    int16 Output;
+    
+    SPointer->Proportion = 1;
+    SPointer->Derivative = 1;
+    
+    Output = SPointer->Proportion * bias +  SPointer->Derivative *(SPointer->Error - bias);
+    
+    SPointer->Error = bias;
+    
+    return (Output);
 }

@@ -48,6 +48,10 @@ void main()
     
     adc_init(AMP1);
     adc_init(AMP2);
+    adc_init(AMP3);
+    adc_init(AMP4);
+    adc_init(AMP5);
+    adc_init(AMP6);
     
     //led light init
     led_init(LED_MAX);
@@ -61,7 +65,7 @@ void main()
 //        Display(i,16,2);
         led_turn(LED3);
         DELAY_MS(1000);
-        if(key_check(KEY_B) == KEY_DOWN)
+        if(key_check(KEY_L) == KEY_DOWN)//KEY_B
         {
             break;
         }

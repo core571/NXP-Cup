@@ -6,10 +6,11 @@
 //***************************************************** 
 //声明 PID 实体 
 //***************************************************** 
-PID sPID;   
+PID sPID;
 PID *sptr = &sPID;
 int16 PWMOUT = 0;
 int32 P_Integer = 0, I_Integer = 0, D_Integer = 0;
+char ServoMid = 47;
 
 void motor_init(void)
 {
@@ -18,7 +19,7 @@ void motor_init(void)
     ftm_pwm_init(MOTOR_FTM, Backward_PWM,MOTOR_HZ,0);      //初始化 电机 PWM
     
     //servo init
-    ftm_pwm_init(SERVO_FTM, SERVO_CH,SERVO_HZ,45);//PWM:0.15~0.75
+    ftm_pwm_init(SERVO_FTM, SERVO_CH,SERVO_HZ,ServoMid);//PWM:0.15~0.75
     DELAY_MS(100);
     
     //PIDInit
@@ -51,6 +52,8 @@ void PIT0_IRQHandler(void)
     val = ftm_quad_get(FTM2);		   //获取FTM 正交解码 的脉冲数(负数表示反方向)
     ftm_quad_clean(FTM2);
     
+    ServoAngle(Servo_PD(get_bias()));
+    
     PWMOUT += IncPIDCalc(val);
     
     if(PWMOUT>99||PWMOUT<-99) 
@@ -71,7 +74,7 @@ void PIT0_IRQHandler(void)
     
    // printf("%d\n",val);
 
-    vcan_sendware((uint8_t *)&val, sizeof(val));//virtual oscilloscope
+//    vcan_sendware((uint8_t *)&val, sizeof(val));//virtual oscilloscope
 /*   
     printf("\t%d.%03d",(int) sptr->Proportion,(int)((sptr->Proportion-(int) sptr->Proportion)*1000));
     printf("\t%d.%04d",( int) sptr->Integral,(int)((sptr->Integral-( int) sptr->Integral)*10000));
@@ -129,11 +132,17 @@ int16 IncPIDCalc(int16 NextPoint)
 } 
 
 //舵机角度函数
-void ServoAngle(int x)
+void ServoAngle(int output)
 {
-    if (x < 15)
-        x = 15;
-    else if (x > 75)
-        x = 75;
-    ftm_pwm_duty(SERVO_FTM, SERVO_CH,x);
+    int Angle = 0;
+    
+    Angle = ServoMid - output;
+    
+    if (Angle < 15)
+        Angle = 15;
+    else if (Angle > 75)
+        Angle = 75;
+    
+     printf("%d\n",Angle);
+    ftm_pwm_duty(SERVO_FTM, SERVO_CH,Angle);
 }
