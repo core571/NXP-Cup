@@ -38,11 +38,15 @@ void uart4_handler(void)
 void main()
 {
     int i;
+
+    
     set_vector_handler(UART4_RX_TX_VECTORn,uart4_handler);
 	uart_rx_irq_en (UART4);
     
     /************************ LCD 液晶屏 初始化  ***********************/
     LCD_init();
+   
+    
     
     flash_init();
     
@@ -62,7 +66,6 @@ void main()
     //倒计时5sec
     for(i=5;i>0;i--)
     {
-//        Display(i,16,2);
         led_turn(LED3);
         DELAY_MS(1000);
         if(key_check(KEY_L) == KEY_DOWN)//KEY_B

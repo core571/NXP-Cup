@@ -133,6 +133,10 @@ void deal_key_event()
         sptr->Proportion = ((float)P_Integer)/1000;
         sptr->Integral = ((float)I_Integer)/1000;
         sptr->Derivative = ((float)D_Integer)/1000;
+        SPointer->A = ((float)SA_Integer)/1000;
+        SPointer->C = ((float)SC_Integer)/1000;
+        SPointer->Derivative = ((float)SD_Integer)/1000;
+        
     }
     
 }

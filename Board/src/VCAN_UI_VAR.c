@@ -14,14 +14,15 @@
 
 static uint8  car_ctrl = CAR_NULL;
 
-uint8  var1, var2;
+
 //extern int sptr->SetPoint;
-uint16 var4;
+//uint16 var4;
 //uint32 var5, var6;
 
-uint32 *var_addr[VAR_MAX] = {   (uint32 *)&car_ctrl,(uint32 *)&var1, (uint32 *)&var2, //8bit
-                                (uint32 *)&sPID.SetPoint, (uint32 *)&var4,            //16bit
-                                (uint32 *)&P_Integer, (uint32 *)&I_Integer, (uint32 *)&D_Integer};//32bit
+uint32 *var_addr[VAR_MAX] = {   (uint32 *)&car_ctrl,                                                 //8bit
+                                (uint32 *)&sPID.SetPoint,                                            //16bit
+                                (uint32 *)&P_Integer, (uint32 *)&I_Integer, (uint32 *)&D_Integer,    //32bit
+                                (uint32 *)&SA_Integer, (uint32 *)&SC_Integer, (uint32 *)&SD_Integer};//32bit
 
 
 ui_var_info_t  num_info[VAR_MAX] =
@@ -31,13 +32,13 @@ ui_var_info_t  num_info[VAR_MAX] =
     //需要设置minval,maxval,{x,y}
     //务必注意最小值不要大于最大值
     {0, 0, 0, CAR_CTRL_MAX, {90,102}},      //变量 car_ctrl，
-    {0, 0, 0, 100, {90, 0}},                //变量 var1，
-    {0, 0, 0, 100, {90, 17}},               //变量 var2，
-    {0, 0, 0, 400, {30, 34}},               //变量 sptr->SetPoint，
-    {0, 0, 0, 300, {90, 51}},               //变量 var4，
-    {0, 0, 0, 65540, {30, 68}},             //变量 P，
-    {0, 0, 0, 65540, {30, 85}},              //变量 I，
-    {0, 0, 0, 65540, {90, 85}}               //D  
+    {0, 0, 0, 400, {30, 0}},                //变量 sptr->SetPoint，
+    {0, 0, 0, 65540, {30, 17}},             //变量 MP，
+    {0, 0, 0, 65540, {30, 34}},             //变量 MI，
+    {0, 0, 0, 65540, {30, 51}},             //MD  
+    {0, 0, 0, 65540, {30, 68}},             //SA  
+    {0, 0, 0, 65540, {30, 85}},             //SC
+    {0, 0, 0, 65540, {30, 102}}             //SD
 };
 
 uint8   new_tab = 0;        //当前选择的变量编号
@@ -239,11 +240,15 @@ void var_ok()
     var_display(new_tab);
     flash_erase_sector  (SECTOR_NUM1_SPEED);
     flash_erase_sector  (SECTOR_NUM2_MOTOR_PID);
+    flash_erase_sector  (SECTOR_NUM5_PD);
     
     flash_write(SECTOR_NUM1_SPEED, 0, sptr->SetPoint); 
     flash_write(SECTOR_NUM2_MOTOR_PID, (0*4), P_Integer);
     flash_write(SECTOR_NUM2_MOTOR_PID, (1*4), I_Integer);
     flash_write(SECTOR_NUM2_MOTOR_PID, (2*4), D_Integer);
+    flash_write(SECTOR_NUM5_PD, (0*4), SA_Integer);
+    flash_write(SECTOR_NUM5_PD, (1*4), SC_Integer);
+    flash_write(SECTOR_NUM5_PD, (2*4), SD_Integer);
     
     
 }

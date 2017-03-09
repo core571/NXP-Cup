@@ -10,6 +10,8 @@ int16 AD_N[ADCCOUNT] = {0};//归一化后值
 PD S_PD;
 PD *SPointer = &S_PD;
 
+int32 SA_Integer = 0, SC_Integer = 0, SD_Integer = 0;
+
 /*中值滤波 均值滤波*/
 void Read_ADC(void)
 {
@@ -145,7 +147,7 @@ int16 get_bias(void)
     normalize();
     bias = AD_N[1] - AD_N[4];
     
-    printf("%d\n",bias);
+//    printf("%d\n",bias);
     
     return (bias);
 }
@@ -155,12 +157,35 @@ int16 Servo_PD(int16 bias)
 {
     int16 Output;
     
-    SPointer->Proportion = 1;
-    SPointer->Derivative = 1;
+    SPointer->Proportion = SPointer->A * bias * bias + SPointer->C;
     
     Output = SPointer->Proportion * bias +  SPointer->Derivative *(SPointer->Error - bias);
     
     SPointer->Error = bias;
     
     return (Output);
+}
+
+void Servo_PD_Init(void)
+{
+   
+#if 0
+    SPointer->A = A_DATA;
+    SPointer->C = C_DATA;
+    SPointer->Derivative = SD_DATA;
+#else 
+    int i=0;
+    int32 a[3]={0};
+    
+    for(i=0;i<3;i++)
+        a[i]=flash_read(SECTOR_NUM5_PD,(i*4),int32);
+    SPointer->A = ((float)a[0])/1000; //比例常数  Proportional Const   
+    SPointer->C = ((float)a[1])/1000; //积分常数 Integral Const   
+    SPointer->Derivative = ((float)a[2])/1000; //微分常数  Derivative Const   
+
+#endif    
+    /*********************** 按键消息 初始化  ***********************/
+    SA_Integer = ((int) SPointer->A)*1000 + (int)((SPointer->A - (int) SPointer->A)*1000);
+    SC_Integer = ((int) SPointer->C)*1000 + (int)((SPointer->C - (int) SPointer->C)*1000);
+    SD_Integer = ((int) SPointer->Derivative)*1000 + (int)((SPointer->Derivative - (int) SPointer->Derivative)*1000);
 }

@@ -8,9 +8,18 @@
 typedef struct   
 {   
     float Proportion; //比例常数  Proportional Const   
-    float Derivative; //微分常数  Derivative Const   
+    float Derivative; //微分常数  Derivative Const  
+    float A;          //P=A * x^2 + C
+    float C;
     int Error; //Error[-1]   
 }PD;
+
+//***************************************************** 
+//PD定义相关宏 
+//***************************************************** 
+#define A_DATA 0.4
+#define C_DATA 10.5
+#define SD_DATA 10.6
 
 #define AMP1     ADC0_SE8        //PTB0右边
 #define AMP2     ADC0_SE9        //PTB1
@@ -24,9 +33,13 @@ typedef struct
 //flash
 #define SECTOR_NUM3_MAX  (FLASH_SECTOR_NUM-3)
 #define SECTOR_NUM4_MIN  (FLASH_SECTOR_NUM-4)
+#define SECTOR_NUM5_PD  (FLASH_SECTOR_NUM-5)
 
 extern int16 AD_valu[ADCCOUNT];
 extern int16 AD_N[ADCCOUNT];
+extern PD S_PD;
+extern PD *SPointer;
+extern int32 SA_Integer, SC_Integer, SD_Integer;
 
 
 extern void Read_ADC(void);
@@ -34,5 +47,6 @@ extern void calibrate_max_min(void);
 extern void normalize(void);
 extern int16 get_bias(void);
 extern int16 Servo_PD(int16 bias);
+extern void Servo_PD_Init(void);
 
 #endif /* _DATA_H_ */

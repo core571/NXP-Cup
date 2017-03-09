@@ -21,7 +21,7 @@ typedef struct
 #define Forward_PWM  FTM_CH3
 #define Backward_PWM  FTM_CH4
 
-#define MOTOR_HZ    500//Hz
+#define MOTOR_HZ    5000//Hz
 
 
 //舵机相关定义
@@ -50,6 +50,7 @@ extern int32 P_Integer, I_Integer, D_Integer;
 void PIT0_IRQHandler(void);
 void IncPIDInit(void);
 int16 IncPIDCalc(int16 NextPoint);
+void MotorOut(int16 output);
 
 extern void motor_init(void);
 extern void ServoAngle(int);
