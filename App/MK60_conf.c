@@ -1,15 +1,15 @@
 /*!
  *     COPYRIGHT NOTICE
- *     Copyright (c) 2013,É½Íâ¿Æ¼¼
+ *     Copyright (c) 2013,å±±å¤–ç§‘æŠ€
  *     All rights reserved.
- *     ¼¼ÊõÌÖÂÛ£ºÉ½ÍâÂÛÌ³ http://www.vcan123.com
+ *     æŠ€æœ¯è®¨è®ºï¼šå±±å¤–è®ºå› http://www.vcan123.com
  *
- *     ³ı×¢Ã÷³ö´¦Íâ£¬ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÉ½Íâ¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí£¬²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- *     ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÉ½Íâ¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ *     é™¤æ³¨æ˜å‡ºå¤„å¤–ï¼Œä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±å±±å¤–ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ï¼Œä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ *     ä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™å±±å¤–ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
  * @file       MK60_conf.c
- * @brief      É½ÍâK60 Æ½Ì¨ÅäÖÃ¹¦ÄÜÊµÏÖÎÄ¼ş
- * @author     É½Íâ¿Æ¼¼
+ * @brief      å±±å¤–K60 å¹³å°é…ç½®åŠŸèƒ½å®ç°æ–‡ä»¶
+ * @author     å±±å¤–ç§‘æŠ€
  * @version    v5.1
  * @date       2013-06-26
  */
@@ -23,9 +23,9 @@
 
 
 /*!
- *  @brief      ¶ÏÑÔÊ§°ÜËùÖ´ĞĞµÄº¯Êı
- *  @param      file    ÎÄ¼şÂ·¾¶µØÖ·
- *  @param      line    ĞĞÊı
+ *  @brief      æ–­è¨€å¤±è´¥æ‰€æ‰§è¡Œçš„å‡½æ•°
+ *  @param      file    æ–‡ä»¶è·¯å¾„åœ°å€
+ *  @param      line    è¡Œæ•°
  *  @since      v5.0
  *  Sample usage:       assert_failed(__FILE__, __LINE__);
  */
@@ -37,9 +37,9 @@ void assert_failed(char *file, int line)
     while (1)
     {
 
-        DEBUG_PRINTF(ASSERT_FAILED_STR, file, line);      //Í¨¹ı´®¿ÚÌáÊ¾¶ÏÑÔÊ§°Ü
+        DEBUG_PRINTF(ASSERT_FAILED_STR, file, line);      //é€šè¿‡ä¸²å£æç¤ºæ–­è¨€å¤±è´¥
 
-        //ËÀÑ­»·µÈ´ı³ÌĞòÔ±¼ì²âÎªºÎ¶ÏÑÔÊ§°Ü
+        //æ­»å¾ªç¯ç­‰å¾…ç¨‹åºå‘˜æ£€æµ‹ä¸ºä½•æ–­è¨€å¤±è´¥
         led_turn(LED0);
         DELAY_MS(1000);
 
@@ -47,11 +47,11 @@ void assert_failed(char *file, int line)
 }
 
 /*!
- *  @brief      ÖØ¶¨Òåprintf µ½´®¿Ú
- *  @param      ch      ĞèÒª´òÓ¡µÄ×Ö½Ú
- *  @param      stream  Êı¾İÁ÷
+ *  @brief      é‡å®šä¹‰printf åˆ°ä¸²å£
+ *  @param      ch      éœ€è¦æ‰“å°çš„å­—èŠ‚
+ *  @param      stream  æ•°æ®æµ
  *  @since      v5.0
- *  @note       ´Ëº¯ÊıÓÉ±àÒëÆ÷×Ô´ø¿âÀïµÄprintfËùµ÷ÓÃ
+ *  @note       æ­¤å‡½æ•°ç”±ç¼–è¯‘å™¨è‡ªå¸¦åº“é‡Œçš„printfæ‰€è°ƒç”¨
  */
 int fputc(int ch, FILE *stream)
 {
@@ -60,9 +60,9 @@ int fputc(int ch, FILE *stream)
 }
 
 /*!
- *  @brief      Æô¶¯Ç°½øĞĞ¼ì²â£¨¼ì²â°´¼üÊÇ·ñ°´ÏÂ£¬°´ÏÂÔò½øÈëËÀÑ­»·£¬·ÀÖ¹½øÈë main º¯Êı,ËÉ¿ª°´¼üºóÔÙ°´ÏÂÔò½øĞĞ½âËø£©
+ *  @brief      å¯åŠ¨å‰è¿›è¡Œæ£€æµ‹ï¼ˆæ£€æµ‹æŒ‰é”®æ˜¯å¦æŒ‰ä¸‹ï¼ŒæŒ‰ä¸‹åˆ™è¿›å…¥æ­»å¾ªç¯ï¼Œé˜²æ­¢è¿›å…¥ main å‡½æ•°,æ¾å¼€æŒ‰é”®åå†æŒ‰ä¸‹åˆ™è¿›è¡Œè§£é”ï¼‰
  *  @since      v5.0
- *  @note       ´Ëº¯Êı¿É±ÜÃâ ÏÂÔØ¿ÚÔÚ main Ç° ¸´ÓÃÁËµ¼ÖÂÎŞ·¨ÏÂÔØµÈÎÊÌâ
+ *  @note       æ­¤å‡½æ•°å¯é¿å… ä¸‹è½½å£åœ¨ main å‰ å¤ç”¨äº†å¯¼è‡´æ— æ³•ä¸‹è½½ç­‰é—®é¢˜
  */
 void start_check()
 {
@@ -72,7 +72,7 @@ void start_check()
 
     if(key_check(KEY_A) == KEY_DOWN )
     {
-        //°´¼ü°´ÏÂ
+        //æŒ‰é”®æŒ‰ä¸‹
 
         led_init(LED0);
 
@@ -85,31 +85,31 @@ void start_check()
             }
 
             led_turn(LED0);
-            printf("\n½øÈëËÀÑ­»·µÈ´ı£¡");
-            DELAY_MS(500);                          //´Ë´¦µÄÑÓÊ±£¬¿ÉÆğµ½ °´¼ü Ïû¶¶µÄ¹¦ÄÜ
+            printf("\nè¿›å…¥æ­»å¾ªç¯ç­‰å¾…ï¼");
+            DELAY_MS(500);                          //æ­¤å¤„çš„å»¶æ—¶ï¼Œå¯èµ·åˆ° æŒ‰é”® æ¶ˆæŠ–çš„åŠŸèƒ½
 
-            //Èç¹û ËÍ¿ª°´¼üºó£¬ÔÙ°´ÏÂ °´¼ü£¬Ôò ½øĞĞ½âËø ²Ù×÷
+            //å¦‚æœ é€å¼€æŒ‰é”®åï¼Œå†æŒ‰ä¸‹ æŒ‰é”®ï¼Œåˆ™ è¿›è¡Œè§£é” æ“ä½œ
             if((flag == 1)  && (key_check(KEY_A) == KEY_DOWN ))
             {
-                while(key_check(KEY_A) == KEY_DOWN)         //µÈ´ı°´¼ü µ¯Æğ
+                while(key_check(KEY_A) == KEY_DOWN)         //ç­‰å¾…æŒ‰é”® å¼¹èµ·
                 {
                     led_turn(LED0);
-                    DELAY_MS(100);                          //´Ë´¦µÄÑÓÊ±£¬¿ÉÆğµ½ °´¼ü Ïû¶¶µÄ¹¦ÄÜ
+                    DELAY_MS(100);                          //æ­¤å¤„çš„å»¶æ—¶ï¼Œå¯èµ·åˆ° æŒ‰é”® æ¶ˆæŠ–çš„åŠŸèƒ½
                 }
 
-                while(key_check(KEY_A) == KEY_UP)         //µÈ´ı°´¼ü µ¯Æğºó ÔÙ ½øĞĞ½âËø
+                while(key_check(KEY_A) == KEY_UP)         //ç­‰å¾…æŒ‰é”® å¼¹èµ·å å† è¿›è¡Œè§£é”
                 {
                     led_turn(LED0);
-                    DELAY_MS(50);                          //´Ë´¦µÄÑÓÊ±£¬¿ÉÆğµ½ °´¼ü Ïû¶¶µÄ¹¦ÄÜ
+                    DELAY_MS(50);                          //æ­¤å¤„çš„å»¶æ—¶ï¼Œå¯èµ·åˆ° æŒ‰é”® æ¶ˆæŠ–çš„åŠŸèƒ½
                 }
 
-                printf("\n½øĞĞ½âËø²Ù×÷£¬ÇëÖØĞÂË¢Èë¹Ì¼ş");
+                printf("\nè¿›è¡Œè§£é”æ“ä½œï¼Œè¯·é‡æ–°åˆ·å…¥å›ºä»¶");
 
-                //½âËøµ¥Æ¬»ú
+                //è§£é”å•ç‰‡æœº
                 flash_init();
                 DELAY_MS(100);
-                flash_erase_sector(0);        //²Á³ıÉÈÇø 0  (½âËø)
-                NVIC_SystemReset();           //¸´Î»µ¥Æ¬»ú
+                flash_erase_sector(0);        //æ“¦é™¤æ‰‡åŒº 0  (è§£é”)
+                NVIC_SystemReset();           //å¤ä½å•ç‰‡æœº
 
             }
         }
@@ -122,9 +122,9 @@ static char vector_str[][15];
 #endif
 
 /*!
- *  @brief      Ä¬ÈÏÖĞ¶Ï·şÎñº¯Êı
+ *  @brief      é»˜è®¤ä¸­æ–­æœåŠ¡å‡½æ•°
  *  @since      v5.0
- *  @note       ´Ëº¯ÊıĞ´ÈëÖĞ¶ÏÏòÁ¿±íÀï£¬²»ĞèÒªÓÃ»§Ö´ĞĞ
+ *  @note       æ­¤å‡½æ•°å†™å…¥ä¸­æ–­å‘é‡è¡¨é‡Œï¼Œä¸éœ€è¦ç”¨æˆ·æ‰§è¡Œ
  */
 void default_isr(void)
 {
@@ -132,7 +132,7 @@ void default_isr(void)
 
 #ifdef  DEBUG
 #define VECTORNUM    ((SCB_ICSR & SCB_ICSR_VECTACTIVE_MASK)>>SCB_ICSR_VECTACTIVE_SHIFT)
-                            //µÈĞ§ÓÚ (*(volatile uint8_t*)(0xE000ED04))
+                            //ç­‰æ•ˆäº (*(volatile uint8_t*)(0xE000ED04))
     uint8 vtr = VECTORNUM;
     led_init(LED1);
 
@@ -205,16 +205,16 @@ char vector_str[][15] =
     "CAN0_Tx_Warning"           , // CAN0 Tx Warning Interrupt
     "CAN0_Rx_Warning"           , // CAN0 Rx Warning Interrupt
     "CAN0_Wake_Up"              , // CAN0 Wake Up Interrupt
-    "Reserved51"                , // ±£Áô interrupt 51
-    "Reserved52"                , // ±£Áô interrupt 52
+    "Reserved51"                , // ä¿ç•™ interrupt 51
+    "Reserved52"                , // ä¿ç•™ interrupt 52
     "CAN1_OR_MB_buf"            , // CAN1 OR'd Message Buffers Interrupt
     "CAN1_Bus_Off"              , // CAN1 Bus Off Interrupt
     "CAN1_Error"                , // CAN1 Error Interrupt
     "CAN1_Tx_Warning"           , // CAN1 Tx Warning Interrupt
     "CAN1_Rx_Warning"           , // CAN1 Rx Warning Interrupt
     "CAN1_Wake_Up"              , // CAN1 Wake Up Interrupt
-    "Reserved59"                , // ±£Áô interrupt 59
-    "Reserved60"                , // ±£Áô interrupt 60
+    "Reserved59"                , // ä¿ç•™ interrupt 59
+    "Reserved60"                , // ä¿ç•™ interrupt 60
     "UART0_RX_TX"               , // UART0 Receive/Transmit interrupt
     "UART0_ERR"                 , // UART0 Error interrupt
     "UART1_RX_TX"               , // UART1 Receive/Transmit interrupt
@@ -237,7 +237,7 @@ char vector_str[][15] =
     "FTM2"                      , // FTM2 fault, overflow and channels interrupt
     "CMT"                       , // CMT interrupt
     "RTC"                       , // RTC interrupt
-    "Reserved83"                , // ±£Áô interrupt 83
+    "Reserved83"                , // ä¿ç•™ interrupt 83
     "PIT0"                      , // PIT timer channel 0 interrupt
     "PIT1"                      , // PIT timer channel 1 interrupt
     "PIT2"                      , // PIT timer channel 2 interrupt
@@ -256,23 +256,23 @@ char vector_str[][15] =
     "TSI0"                      , // TSI0 Interrupt
     "MCG"                       , // MCG Interrupt
     "LPTimer"                   , // LPTimer interrupt
-    "Reserved102"               , // ±£Áô interrupt 102
+    "Reserved102"               , // ä¿ç•™ interrupt 102
     "PORTA"                     , // Port A interrupt
     "PORTB"                     , // Port B interrupt
     "PORTC"                     , // Port C interrupt
     "PORTD"                     , // Port D interrupt
     "PORTE"                     , // Port E interrupt
-    "Reserved108"               , // ±£Áô interrupt 108
-    "Reserved109"               , // ±£Áô interrupt 109
-    "Reserved110"               , // ±£Áô interrupt 110
-    "Reserved111"               , // ±£Áô interrupt 111
-    "Reserved112"               , // ±£Áô interrupt 112
-    "Reserved113"               , // ±£Áô interrupt 113
-    "Reserved114"               , // ±£Áô interrupt 114
-    "Reserved115"               , // ±£Áô interrupt 115
-    "Reserved116"               , // ±£Áô interrupt 116
-    "Reserved117"               , // ±£Áô interrupt 117
-    "Reserved118"               , // ±£Áô interrupt 118
-    "Reserved119"               , // ±£Áô interrupt 119
+    "Reserved108"               , // ä¿ç•™ interrupt 108
+    "Reserved109"               , // ä¿ç•™ interrupt 109
+    "Reserved110"               , // ä¿ç•™ interrupt 110
+    "Reserved111"               , // ä¿ç•™ interrupt 111
+    "Reserved112"               , // ä¿ç•™ interrupt 112
+    "Reserved113"               , // ä¿ç•™ interrupt 113
+    "Reserved114"               , // ä¿ç•™ interrupt 114
+    "Reserved115"               , // ä¿ç•™ interrupt 115
+    "Reserved116"               , // ä¿ç•™ interrupt 116
+    "Reserved117"               , // ä¿ç•™ interrupt 117
+    "Reserved118"               , // ä¿ç•™ interrupt 118
+    "Reserved119"               , // ä¿ç•™ interrupt 119
 };
 #endif

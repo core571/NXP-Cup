@@ -1,15 +1,15 @@
 /*!
  *     COPYRIGHT NOTICE
- *     Copyright (c) 2013,ɽ��Ƽ�
+ *     Copyright (c) 2013,山外科技
  *     All rights reserved.
- *     �������ۣ�ɽ����̳ http://www.vcan123.com
+ *     技术讨论：山外论坛 http://www.vcan123.com
  *
- *     ��ע�������⣬�����������ݰ�Ȩ����ɽ��Ƽ����У�δ������������������ҵ��;��
- *     �޸�����ʱ���뱣��ɽ��Ƽ��İ�Ȩ������
+ *     除注明出处外，以下所有内容版权均属山外科技所有，未经允许，不得用于商业用途，
+ *     修改内容时必须保留山外科技的版权声明。
  *
  * @file       MK60_conf.h
- * @brief      ɽ��K60 ƽ̨�����ļ�
- * @author     ɽ��Ƽ�
+ * @brief      山外K60 平台配置文件
+ * @author     山外科技
  * @version    v5.1
  * @date       2013-06-26
  */
@@ -18,62 +18,62 @@
 #define __MK60_CONF_H__
 
 /*
- * ����ƽ̨[���ڹ���ѡ���ﶨ��]
+ * 定义平台[放在工程选项里定义]
  */
 //#define MK60DZ10
 //#define MK60F15
 
 /*
- * ����LCD�ͺ�
+ * 定义LCD型号
  */
-#define LCD_ILI9341     1       // 3.2��Һ��(Ұ��/����)
-#define LCD_ST7735S     2       // 1.44��Һ��      LCD_ST7735S �� LCD_ST7735R ���һ�����Ĵ����������в�ͬ
-#define LCD_ST7735R     3       // 1.44��Һ��
-#define LCD_ILI9325     4       // 3.2��Һ��(ɽ��)
+#define LCD_ILI9341     1       // 3.2寸液晶(野火/秉火)
+#define LCD_ST7735S     2       // 1.44寸液晶      LCD_ST7735S 与 LCD_ST7735R 外观一样，寄存器操作略有不同
+#define LCD_ST7735R     3       // 1.44寸液晶
+#define LCD_ILI9325     4       // 3.2寸液晶(山外)
 
-#define USE_LCD         LCD_ST7735S             //ѡ��ʹ�õ� LCD
+#define USE_LCD         LCD_ST7735S             //选择使用的 LCD
 
 /*
- * ѡ���Ƿ����������Ϣ���������ע������ĺ궨��
+ * 选择是否输出调试信息，不输出则注释下面的宏定义
  */
 #define DEBUG_PRINT
 
 /*
- * ���徧��ʱ�ӣ���λΪMHz
+ * 定义晶振时钟，单位为MHz
  */
 #define EXTAL_IN_MHz            (50)
 
 /*
- * ���� PLL ��Ƶ Ƶ�� (��ͬ��ƽ̨���в�ͬ�ĳ�Ƶ����)
+ * 定义 PLL 超频 频率 (不同的平台，有不同的超频配置)
  *
- * ����Գ�Ƶ���ò���Ϥ�����Կ���������:
- * K60 KL26 ��Ƶ������Ƶ�ʵĹ�ϵ - ���ܳ������� - ɽ����̳
+ * 如果对超频配置不熟悉，可以看如下帖子:
+ * K60 KL26 主频和总线频率的关系 - 智能车资料区 - 山外论坛
  * http://www.vcan123.com/forum.php?mod=viewthread&tid=81&page=1&extra=#pid419
  */
-#if defined(MK60DZ10)			//����Ϊ MK60DZ10 �ĳ�Ƶ����
+#if defined(MK60DZ10)			//以下为 MK60DZ10 的超频配置
 /*
- * ���� PLL ��Ƶ Ƶ��
+ * 定义 PLL 超频 频率
  */
-#define CORE_CLK                PLL180      // �� PLL_e ��ѡ�� ���ṩ�� ���÷���
-                                            // bus �� flex bus �� flash Ƶ�� ���� core ��������Ƶ����
+#define CORE_CLK                PLL180      // 从 PLL_e 里选择 已提供的 配置方案
+                                            // bus 、 flex bus 、 flash 频率 都是 core 整数倍分频而来
 #define MAX_BUS_CLK             90         // bus      (bus        >= core/16  )
 #define MAX_FLEXBUS_CLK         25          // flex bus (flex bus   >= core/16  )
 #define MAX_FLASH_CLK           25          // flash    (flash      >= core/16  )
 
-#elif defined(MK60F15)          //����Ϊ MK60F15 �ĳ�Ƶ����
+#elif defined(MK60F15)          //以下为 MK60F15 的超频配置
 
-#define CORE_CLK                PLL200      // �� PLL_e ��ѡ�� ���ṩ�� ���÷���
-                                            // bus �� flex bus �� flash Ƶ�� ���� core ��������Ƶ����
+#define CORE_CLK                PLL200      // 从 PLL_e 里选择 已提供的 配置方案
+                                            // bus 、 flex bus 、 flash 频率 都是 core 整数倍分频而来
 #define MAX_BUS_CLK             100         // bus      (bus        >= core/16  )
 #define MAX_FLEXBUS_CLK         50          // flex bus (flex bus   >= core/16  )
 #define MAX_FLASH_CLK           25          // flash    (flash      >= core/16  )
 
 #endif
 
-/*********************   �Զ��� ʱ��Ƶ�� ��Ƶ����   ********************/
-//��� CORE_CLK Ϊ PLLUSR ����Ϊ�Զ���ģʽ ������������Ч
-//����� F15 ϵ�У� MCG_CLK_MHZ = 50u*(VDIV+16)/(PRDIV+1)/2
-//����� DZ10 ϵ�У�MCG_CLK_MHZ = 50u/*(VDIV+24)(PRDIV+1)
+/*********************   自定义 时钟频率 分频因子   ********************/
+//如果 CORE_CLK 为 PLLUSR ，则为自定义模式 ，如下配置生效
+//如果是 F15 系列： MCG_CLK_MHZ = 50u*(VDIV+16)/(PRDIV+1)/2
+//如果是 DZ10 系列：MCG_CLK_MHZ = 50u/*(VDIV+24)(PRDIV+1)
 #define PRDIV             10
 #define VDIV              29
 #define CORE_DIV          0         //  core = mcg/ ( CORE_DIV  + 1 )
@@ -82,16 +82,16 @@
 #define FLASH_DIV         8         //  flash= mcg/ ( FLASH_DIV + 1 )
 
 /*
- * ���� printf���� �� ��������˿� �� ������Ϣ
+ * 定义 printf函数 的 串口输出端口 和 串口信息
  */
 #define VCAN_PORT           UART4
 #define VCAN_BAUD           115200
 
 /*
- * ������ʱ����
+ * 配置延时函数
  */
 #if 0
-#include "MK60_DWT.h"                       //�п��ܲ��ȶ�
+#include "MK60_DWT.h"                       //有可能不稳定
 #define DELAY()         dwt_delay_ms(500)
 #define DELAY_MS(ms)    dwt_delay_ms(ms)
 #define DELAY_US(us)    dwt_delay_us(us)
@@ -114,7 +114,7 @@
 
 
 /*
- * ���ö��Ժ���ʵ�ֺ���
+ * 配置断言和其实现函数
  */
 void assert_failed(char *, int);
 
@@ -127,16 +127,16 @@ void assert_failed(char *, int);
 #endif
 
 /*
- * ���õ����������
+ * 配置调试输出函数
  */
 #if( defined(DEBUG) && defined(DEBUG_PRINT))
-#define DEBUG_PRINTF(FORMAT,...)        do{printf(FORMAT,##__VA_ARGS__);}while(0)	/*�����ӡ������Ϣʱ���뽫������ע�͵�*/
+#define DEBUG_PRINTF(FORMAT,...)        do{printf(FORMAT,##__VA_ARGS__);}while(0)	/*无需打印调试信息时，请将宏内容注释掉*/
 #else
 #define DEBUG_PRINTF(FORMAT,...)
 #endif
 
 /*
- * ����ǰ��⣬��ֹ �������ؿ�
+ * 启动前检测，防止 复用下载口
  */
 void start_check();
 #ifdef DEBUG

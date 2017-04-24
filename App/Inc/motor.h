@@ -52,7 +52,7 @@ void IncPIDInit(void);
 int16 IncPIDCalc(int16 NextPoint);
 void MotorOut(int16 output);
 
-extern void motor_init(void);
+void motor_init(void);
 extern void ServoAngle(int);
 
 #endif /* _MOTOR_H_ */

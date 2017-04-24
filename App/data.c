@@ -5,21 +5,21 @@
 int16 AD_valu[ADCCOUNT] = {0};
 int16 max_valu[ADCCOUNT] = {0};
 int16 min_valu[ADCCOUNT] = {0};
-int16 AD_N[ADCCOUNT] = {0};//¹éÒ»»¯ºóÖµ
+int16 AD_N[ADCCOUNT] = {0};//å½’ä¸€åŒ–åå€¼
 
 PD S_PD;
 PD *SPointer = &S_PD;
 
 int32 SA_Integer = 0, SC_Integer = 0, SD_Integer = 0;
 
-/*ÖĞÖµÂË²¨ ¾ùÖµÂË²¨*/
+/*ä¸­å€¼æ»¤æ³¢ å‡å€¼æ»¤æ³¢*/
 void Read_ADC(void)
 {
      int16  i,j,k,z,temp;
      int16  ad_valu[ADCCOUNT][3],ad_mid[ADCCOUNT][4];
      
      
-     //ÖĞÖµÂË²¨
+     //ä¸­å€¼æ»¤æ³¢
      for(z=0;z<4;z++)
      {
          for(i=0;i<3;i++)
@@ -31,7 +31,7 @@ void Read_ADC(void)
              ad_valu[4][i]=adc_once(AMP5,ADC_8bit);
              ad_valu[5][i]=adc_once(AMP6,ADC_8bit);
          }
-    //Ã°ÅİÅÅĞò
+    //å†’æ³¡æ’åº
          for(i = 0; i < ADCCOUNT; i++)
          {
             for(j=0;j<2;j++)
@@ -48,13 +48,13 @@ void Read_ADC(void)
             }
          }
          
-         //È¡ÖĞÖµ
+         //å–ä¸­å€¼
          for(i=0;i<ADCCOUNT;i++)
              ad_mid[i][z]=ad_valu[i][1];
      }
      
      
-//¾ùÖµÂË²¨
+//å‡å€¼æ»¤æ³¢
      for(i=0;i<ADCCOUNT;i++)
          AD_valu[i]=0;
      
@@ -66,7 +66,7 @@ void Read_ADC(void)
      }
 }
 
-//±ê¶¨
+//æ ‡å®š
 void calibrate_max_min(void)
 {
      int16 i,j;
@@ -77,7 +77,7 @@ void calibrate_max_min(void)
         min_valu[i]=10;
      }
      
-     if(key_check(KEY_L) == KEY_DOWN)//KEY_B
+     if(key_check(KEY_B) == KEY_DOWN)//KEY_B
      {
          while(key_check(KEY_A) == KEY_UP)
          {
@@ -122,7 +122,7 @@ void calibrate_max_min(void)
      }
 }
 
-//¹éÒ»»¯´¦Àí
+//å½’ä¸€åŒ–å¤„ç†
 void normalize(void)
 {
     int i;
@@ -179,13 +179,45 @@ void Servo_PD_Init(void)
     
     for(i=0;i<3;i++)
         a[i]=flash_read(SECTOR_NUM5_PD,(i*4),int32);
-    SPointer->A = ((float)a[0])/1000; //±ÈÀı³£Êı  Proportional Const   
-    SPointer->C = ((float)a[1])/1000; //»ı·Ö³£Êı Integral Const   
-    SPointer->Derivative = ((float)a[2])/1000; //Î¢·Ö³£Êı  Derivative Const   
+    SPointer->A = ((float)a[0])/1000; //æ¯”ä¾‹å¸¸æ•°  Proportional Const   
+    SPointer->C = ((float)a[1])/1000; //ç§¯åˆ†å¸¸æ•° Integral Const   
+    SPointer->Derivative = ((float)a[2])/1000; //å¾®åˆ†å¸¸æ•°  Derivative Const   
 
 #endif    
-    /*********************** °´¼üÏûÏ¢ ³õÊ¼»¯  ***********************/
+    /*********************** æŒ‰é”®æ¶ˆæ¯ åˆå§‹åŒ–  ***********************/
     SA_Integer = ((int) SPointer->A)*1000 + (int)((SPointer->A - (int) SPointer->A)*1000);
     SC_Integer = ((int) SPointer->C)*1000 + (int)((SPointer->C - (int) SPointer->C)*1000);
     SD_Integer = ((int) SPointer->Derivative)*1000 + (int)((SPointer->Derivative - (int) SPointer->Derivative)*1000);
+}
+
+char OutlineFlag()
+{
+	char OutFlag = 0, MinFlag = 0; 
+//whether two sides are all outside
+	if(AD_N[1] < 3 && AD_N[4] < 3){
+		OutFlag = 1; 
+	}
+	else{
+		OutFlag = 0;
+	}
+	
+//which side outsides first	
+	if(AD_N[1] < 3 && AD_N[4] > 3){
+		MinFlag = 1;
+	}
+	else if(AD_N[1] > 3 && AD_N[4] < 3){
+		MinFlag = 2;
+	}
+	else if(AD_N[1] > 3 && AD_N[4] > 3){
+		MinFlag = 0;
+	}
+//two conditions: two sides outside or one side outsides	
+	if((OutFlag == 1 && MinFlag == 1) || MinFlag == 1){
+		return 1;
+	}
+	else if((OutFlag ==1 && MinFlag ==2) || MinFlag == 2){
+		return 2;
+	}
+	else 
+		return 0;
 }

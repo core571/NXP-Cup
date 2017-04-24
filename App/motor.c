@@ -4,7 +4,7 @@
 
 
 //***************************************************** 
-//ÉùÃ÷ PID ÊµÌå 
+//å£°æ˜ PID å®ä½“ 
 //***************************************************** 
 PID sPID;
 PID *sptr = &sPID;
@@ -15,8 +15,8 @@ void motor_init(void)
 {
     Site_t site;
     //motor init
-    ftm_pwm_init(MOTOR_FTM, Forward_PWM,MOTOR_HZ,0);      //³õÊ¼»¯ µç»ú PWM
-    ftm_pwm_init(MOTOR_FTM, Backward_PWM,MOTOR_HZ,0);      //³õÊ¼»¯ µç»ú PWM
+    ftm_pwm_init(MOTOR_FTM, Forward_PWM,MOTOR_HZ,0);      //åˆå§‹åŒ– ç”µæœº PWM
+    ftm_pwm_init(MOTOR_FTM, Backward_PWM,MOTOR_HZ,0);      //åˆå§‹åŒ– ç”µæœº PWM
     
     //servo init
     ftm_pwm_init(SERVO_FTM, SERVO_CH,SERVO_HZ,ServoMid);//PWM:0.15~0.75
@@ -45,26 +45,26 @@ void motor_init(void)
     
     
     
-    key_event_init();                                                   //°´¼üÏûÏ¢³õÊ¼»¯
+    key_event_init();                                                   //æŒ‰é”®æ¶ˆæ¯åˆå§‹åŒ–
     
     //encoder init
-    ftm_quad_init(FTM2);									//FTM2 Õı½»½âÂë³õÊ¼»¯£¨ËùÓÃµÄ¹Ü½Å¿É²é port_cfg.h £©
+    ftm_quad_init(FTM2);									//FTM2 æ­£äº¤è§£ç åˆå§‹åŒ–ï¼ˆæ‰€ç”¨çš„ç®¡è„šå¯æŸ¥ port_cfg.h ï¼‰
 	
     
-    pit_init_ms(PIT0, 10); 								//³õÊ¼»¯PIT0£¬¶¨Ê±Ê±¼äÎª£º 10ms
-	set_vector_handler(PIT0_VECTORn ,PIT0_IRQHandler);		//ÉèÖÃPIT0µÄÖĞ¶Ï·şÎñº¯ÊıÎª PIT0_IRQHandler
-	enable_irq (PIT0_IRQn); 								//Ê¹ÄÜPIT0ÖĞ¶Ï
+    pit_init_ms(PIT0, 10); 								//åˆå§‹åŒ–PIT0ï¼Œå®šæ—¶æ—¶é—´ä¸ºï¼š 10ms
+	set_vector_handler(PIT0_VECTORn ,PIT0_IRQHandler);		//è®¾ç½®PIT0çš„ä¸­æ–­æœåŠ¡å‡½æ•°ä¸º PIT0_IRQHandler
+	enable_irq (PIT0_IRQn); 								//ä½¿èƒ½PIT0ä¸­æ–­
 }
 
 /*!
- *	@brief		PIT0ÖĞ¶Ï·şÎñº¯Êı
+ *	@brief		PIT0ä¸­æ–­æœåŠ¡å‡½æ•°
  *	@since		v5.0
  */
 void PIT0_IRQHandler(void)
 {
     key_IRQHandler();
     int16 val;
-    val = ftm_quad_get(FTM2);		   //»ñÈ¡FTM Õı½»½âÂë µÄÂö³åÊı(¸ºÊı±íÊ¾·´·½Ïò)
+    val = ftm_quad_get(FTM2);		   //è·å–FTM æ­£äº¤è§£ç  çš„è„‰å†²æ•°(è´Ÿæ•°è¡¨ç¤ºåæ–¹å‘)
     ftm_quad_clean(FTM2);
     vcan_sendware((uint8_t *)&val, sizeof(val));//virtual oscilloscope
  // printf("%d\n",val);
@@ -73,11 +73,11 @@ void PIT0_IRQHandler(void)
     
     MotorOut(IncPIDCalc(val));
     
-    PIT_Flag_Clear(PIT0);		//ÇåÖĞ¶Ï±êÖ¾Î»
+    PIT_Flag_Clear(PIT0);		//æ¸…ä¸­æ–­æ ‡å¿—ä½
 }
 
 //***************************************************** 
-//PID ²ÎÊı³õÊ¼»¯ 
+//PID å‚æ•°åˆå§‹åŒ– 
 //***************************************************** 
 void IncPIDInit(void)
 {   
@@ -85,46 +85,46 @@ void IncPIDInit(void)
     sptr->LastError = 0; //Error[-1]   
     sptr->PrevError = 0; //Error[-2]   
 #if 0
-    sptr->Proportion = P_DATA; //±ÈÀı³£Êı  Proportional Const   
-    sptr->Integral = I_DATA; //»ı·Ö³£Êı Integral Const   
-    sptr->Derivative = D_DATA; //Î¢·Ö³£Êı  Derivative Const   
-    sptr->SetPoint =100;    //Ä¿±êÊÇ 100
+    sptr->Proportion = P_DATA; //æ¯”ä¾‹å¸¸æ•°  Proportional Const   
+    sptr->Integral = I_DATA; //ç§¯åˆ†å¸¸æ•° Integral Const   
+    sptr->Derivative = D_DATA; //å¾®åˆ†å¸¸æ•°  Derivative Const   
+    sptr->SetPoint =100;    //ç›®æ ‡æ˜¯ 100
 #else
     for(i=0;i<3;i++)
         a[i]=flash_read(SECTOR_NUM2_MOTOR_PID,(i*4),int32);
-    sptr->Proportion = ((float)a[0])/1000; //±ÈÀı³£Êı  Proportional Const   
-    sptr->Integral = ((float)a[1])/1000; //»ı·Ö³£Êı Integral Const   
-    sptr->Derivative = ((float)a[2])/1000; //Î¢·Ö³£Êı  Derivative Const   
-    sptr->SetPoint =flash_read(SECTOR_NUM1_SPEED,(0*4),int);    //Ä¿±êÊÇ 100
+    sptr->Proportion = ((float)a[0])/1000; //æ¯”ä¾‹å¸¸æ•°  Proportional Const   
+    sptr->Integral = ((float)a[1])/1000; //ç§¯åˆ†å¸¸æ•° Integral Const   
+    sptr->Derivative = ((float)a[2])/1000; //å¾®åˆ†å¸¸æ•°  Derivative Const   
+    sptr->SetPoint =flash_read(SECTOR_NUM1_SPEED,(0*4),int);    //ç›®æ ‡æ˜¯ 100
     
 #endif
-    /*********************** °´¼üÏûÏ¢ ³õÊ¼»¯  ***********************/
+    /*********************** æŒ‰é”®æ¶ˆæ¯ åˆå§‹åŒ–  ***********************/
     P_Integer = ((int) sptr->Proportion)*1000 + (int)((sptr->Proportion-(int) sptr->Proportion)*1000);
     I_Integer = ((int) sptr->Integral)*1000 + (int)((sptr->Integral-(int) sptr->Integral)*1000);
     D_Integer = ((int) sptr->Derivative)*1000 + (int)((sptr->Derivative-(int) sptr->Derivative)*1000);
 }
 
 //***************************************************** 
-//ÔöÁ¿Ê½ PID ¿ØÖÆÉè¼Æ   
+//å¢é‡å¼ PID æ§åˆ¶è®¾è®¡   
 //***************************************************** 
 int16 IncPIDCalc(int16 NextPoint)
 {   
-    int16 iError, iIncpid; //µ±Ç°Îó²î   
-    iError = sptr->SetPoint - NextPoint; //ÔöÁ¿¼ÆËã   
+    int16 iError, iIncpid; //å½“å‰è¯¯å·®   
+    iError = sptr->SetPoint - NextPoint; //å¢é‡è®¡ç®—   
 
-/*    //¡÷Uk=A*e(k)+B*e(k-1)+C*e(k-2) 
-    iIncpid = sptr->Proportion * iError //E[k]Ïî   
-            - sptr->Integral * sptr->LastError //E[k£­1]Ïî   
-            + sptr->Derivative * sptr->PrevError; //E[k£­2]Ïî  
+/*    //â–³Uk=A*e(k)+B*e(k-1)+C*e(k-2) 
+    iIncpid = sptr->Proportion * iError //E[k]é¡¹   
+            - sptr->Integral * sptr->LastError //E[kï¼1]é¡¹   
+            + sptr->Derivative * sptr->PrevError; //E[kï¼2]é¡¹  
 */
     
 // PID original function
-    iIncpid = sptr->Proportion * (iError - sptr->LastError) //E[k]Ïî   
-            + sptr->Integral * iError //E[k£­1]Ïî   
-            + sptr->Derivative * (iError - 2 * sptr->LastError + sptr->PrevError); //E[k£­2]Ïî   
-    sptr->PrevError = sptr->LastError;      //´æ´¢Îó²î£¬ÓÃÓÚÏÂ´Î¼ÆËã   
+    iIncpid = sptr->Proportion * (iError - sptr->LastError) //E[k]é¡¹   
+            + sptr->Integral * iError //E[kï¼1]é¡¹   
+            + sptr->Derivative * (iError - 2 * sptr->LastError + sptr->PrevError); //E[kï¼2]é¡¹   
+    sptr->PrevError = sptr->LastError;      //å­˜å‚¨è¯¯å·®ï¼Œç”¨äºä¸‹æ¬¡è®¡ç®—   
     sptr->LastError = iError;   
-    return(iIncpid);                        //·µ»ØÔöÁ¿Öµ   
+    return(iIncpid);                        //è¿”å›å¢é‡å€¼   
 } 
 
 
@@ -157,7 +157,7 @@ void MotorOut(int16 output)
 */
 }
 
-//¶æ»ú½Ç¶Èº¯Êı
+//èˆµæœºè§’åº¦å‡½æ•°
 void ServoAngle(int output)
 {
     int Angle = 0;

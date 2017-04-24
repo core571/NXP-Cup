@@ -47,6 +47,6 @@ extern void calibrate_max_min(void);
 extern void normalize(void);
 extern int16 get_bias(void);
 extern int16 Servo_PD(int16 bias);
-extern void Servo_PD_Init(void);
+ void Servo_PD_Init(void);
 
 #endif /* _DATA_H_ */

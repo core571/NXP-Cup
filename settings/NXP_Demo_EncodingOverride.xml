@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<userOverrides>
+  <override>
+    <path>I:\NXP Cup\NXP_Demo\App\Inc\MK60_conf.h</path>
+    <encoding>UTF-8</encoding>
+  </override>
+  <override>
+    <path>I:\NXP Cup\NXP_Demo\App\Inc\MK60_it.h</path>
+    <encoding>UTF-8</encoding>
+  </override>
+  <override>
+    <path>I:\NXP Cup\NXP_Demo\App\Inc\PORT_cfg.h</path>
+    <encoding>UTF-8</encoding>
+  </override>
+  <override>
+    <path>I:\NXP Cup\NXP_Demo\App\MK60_conf.c</path>
+    <encoding>UTF-8</encoding>
+  </override>
+  <override>
+    <path>I:\NXP Cup\NXP_Demo\App\MK60_it.c</path>
+    <encoding>UTF-8</encoding>
+  </override>
+  <override>
+    <path>I:\NXP Cup\NXP_Demo\App\data.c</path>
+    <encoding>UTF-8</encoding>
+  </override>
+  <override>
+    <path>I:\NXP Cup\NXP_Demo\App\main.c</path>
+    <encoding>UTF-8</encoding>
+  </override>
+  <override>
+    <path>I:\NXP Cup\NXP_Demo\App\motor.c</path>
+    <encoding>UTF-8</encoding>
+  </override>
+</userOverrides>
+
+

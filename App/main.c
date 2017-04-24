@@ -21,15 +21,15 @@ void uart4_handler(void)
 		else if(ch=='8')
 			sptr->Derivative-=0.1;
         
-       P_Integer =(int) sptr->Proportion;//ÕûÊý²¿·Ö
-       I_Integer =( int) sptr->Integral;//ÕûÊý²¿·Ö
-       D_Integer =( int) sptr->Derivative;//ÕûÊý²¿·Ö
+       P_Integer =(int) sptr->Proportion;//æ•´æ•°éƒ¨åˆ†
+       I_Integer =( int) sptr->Integral;//æ•´æ•°éƒ¨åˆ†
+       D_Integer =( int) sptr->Derivative;//æ•´æ•°éƒ¨åˆ†
        printf("\t%d.%03d",(int) sptr->Proportion,(int)((sptr->Proportion-(int) sptr->Proportion)*1000));
        printf("\t%d.%04d",( int) sptr->Integral,(int)((sptr->Integral-( int) sptr->Integral)*10000));
        printf("\t%d.%04d",( int) sptr->Derivative,(int)((sptr->Derivative-( int) sptr->Derivative)*10000));
        printf("\n");
        
-    //sptr->SetPoint =100;    //Ä¿±êÊÇ 100 
+    //sptr->SetPoint =100;    //ç›®æ ‡æ˜¯ 100 
 
                           
     }
@@ -43,7 +43,7 @@ void main()
     set_vector_handler(UART4_RX_TX_VECTORn,uart4_handler);
 	uart_rx_irq_en (UART4);
     
-    /************************ LCD Òº¾§ÆÁ ³õÊ¼»¯  ***********************/
+    /************************ LCD æ¶²æ™¶å± åˆå§‹åŒ–  ***********************/
     LCD_init();
    
     
@@ -60,21 +60,21 @@ void main()
     //led light init
     led_init(LED_MAX);
     
-    //³õÊ¼»¯ È«²¿ °´¼ü
+    //åˆå§‹åŒ– å…¨éƒ¨ æŒ‰é”®
     key_init(KEY_MAX);
     
-    //µ¹¼ÆÊ±5sec
+    //å€’è®¡æ—¶5sec
     for(i=5;i>0;i--)
     {
         led_turn(LED3);
         DELAY_MS(1000);
-        if(key_check(KEY_L) == KEY_DOWN)//KEY_B
+        if(key_check(KEY_B) == KEY_DOWN)//KEY_B
         {
             break;
         }
     }
     
-    //±ê¶¨
+    //æ ‡å®š
     calibrate_max_min();
 
     motor_init();

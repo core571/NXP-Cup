@@ -56,6 +56,12 @@
 #define     LCD_ST7735S_RST     PTC13
 
 //此部分需要修改初始化里的代码
+/*
+#define     LCD_ST7735S_P0              PTD_B0_OUT
+#define     LCD_ST7735S_PIN             PTD_B0_IN
+#define     LCD_ST7735S_PDDR_OUT()      (DDRD_B0 = 0xff)
+#define     LCD_ST7735S_PDDR_IN()       (DDRD_B0 = 0)
+*/
 #define     LCD_ST7735S_P0              PTC_B0_OUT
 #define     LCD_ST7735S_PIN             PTC_B0_IN
 #define     LCD_ST7735S_PDDR_OUT()      (DDRC_B0 = 0xff)

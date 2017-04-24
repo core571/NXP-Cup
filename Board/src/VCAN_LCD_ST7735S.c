@@ -72,6 +72,7 @@ void    LCD_ST7735S_init()
 
     for(n = 0; n < 8; n++)
     {
+        //gpio_init  ((PTXn_e)(PTD0 + n), GPO, 0);
         gpio_init  ((PTXn_e)(PTC0 + n), GPO, 0);
     }
 
