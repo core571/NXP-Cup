@@ -67,6 +67,9 @@ void PIT0_IRQHandler(void)
     val = ftm_quad_get(FTM2);		   //获取FTM 正交解码 的脉冲数(负数表示反方向)
     ftm_quad_clean(FTM2);
     vcan_sendware((uint8_t *)&val, sizeof(val));//virtual oscilloscope
+	
+	char OutlineFlag();
+	
  // printf("%d\n",val);
 
     ServoAngle(Servo_PD(get_bias()));

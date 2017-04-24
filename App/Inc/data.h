@@ -42,11 +42,12 @@ extern PD *SPointer;
 extern int32 SA_Integer, SC_Integer, SD_Integer;
 
 
-extern void Read_ADC(void);
-extern void calibrate_max_min(void);
-extern void normalize(void);
-extern int16 get_bias(void);
-extern int16 Servo_PD(int16 bias);
- void Servo_PD_Init(void);
+void Read_ADC(void);
+void calibrate_max_min(void);
+void normalize(void);
+int16 get_bias(void);
+int16 Servo_PD(int16 bias);
+void Servo_PD_Init(void);
+char OutlineFlag();
 
 #endif /* _DATA_H_ */
