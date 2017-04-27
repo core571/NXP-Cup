@@ -3,25 +3,25 @@
 
 
 //***************************************************** 
-//¶¨Òå SERVO_PID ½á¹¹Ìå 
+//å®šä¹‰ SERVO_PID ç»“æ„ä½“ 
 //***************************************************** 
 typedef struct   
 {   
-    float Proportion; //±ÈÀı³£Êı  Proportional Const   
-    float Derivative; //Î¢·Ö³£Êı  Derivative Const  
+    float Proportion; //æ¯”ä¾‹å¸¸æ•°  Proportional Const   
+    float Derivative; //å¾®åˆ†å¸¸æ•°  Derivative Const  
     float A;          //P=A * x^2 + C
     float C;
     int Error; //Error[-1]   
 }PD;
 
 //***************************************************** 
-//PD¶¨ÒåÏà¹Øºê 
+//PDå®šä¹‰ç›¸å…³å® 
 //***************************************************** 
 #define A_DATA 0.4
 #define C_DATA 10.5
 #define SD_DATA 10.6
 
-#define AMP1     ADC0_SE8        //PTB0ÓÒ±ß
+#define AMP1     ADC0_SE8        //PTB0å³è¾¹
 #define AMP2     ADC0_SE9        //PTB1
 #define AMP3     ADC0_SE12       //PTB2
 #define AMP4     ADC0_SE13       //PTB3
